@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5B Quiz</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #F2F8F7; padding: 20px; color: #0E3B43; }
+        .container { max-width: 850px; margin: auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(14,59,67,0.12); }
+        .header-box { text-align: center; border-bottom: 3px solid #F28F3B; margin-bottom: 30px; padding-bottom: 10px; }
+        .header-box h1 { color: #0E3B43; margin-bottom: 4px; }
+        .header-box h3 { color: #5B6B73; font-weight: normal; }
+
+        #name-screen, #quiz-area, #result { display: none; }
+
+        .btn-primary { background-color: #0F8B8D; color: white; padding: 15px 60px; border: none; border-radius: 30px; font-size: 18px; cursor: pointer; font-weight: bold; }
+        .btn-primary:hover { background-color: #0E3B43; }
+        input[type="text"] { width: 80%; padding: 15px; border: 2px solid #CFE3E0; border-radius: 8px; font-size: 18px; margin-bottom: 20px; }
+        input[type="text"]:focus { outline: none; border-color: #0F8B8D; }
+
+        #timer { position: fixed; top: 20px; right: 20px; background: #B4570E; color: white; padding: 12px 25px; border-radius: 50px; font-weight: bold; font-size: 22px; z-index: 1000; }
+        .question { margin-bottom: 30px; padding: 25px; border-left: 6px solid #0F8B8D; background: #F2F8F7; border-radius: 8px; }
+        .options label { display: block; margin: 12px 0; padding: 14px; cursor: pointer; background: white; border: 1px solid #CFE3E0; border-radius: 10px; }
+        .options label:hover { border-color: #0F8B8D; background: #D5ECEA; }
+
+        #submit-btn { width: 100%; padding: 20px; background: #F28F3B; color: #0E3B43; border: none; border-radius: 10px; font-size: 22px; cursor: pointer; font-weight: bold; }
+        #submit-btn:hover { background: #B4570E; color: white; }
+
+        .review-item { margin-bottom: 15px; padding: 15px; border-radius: 8px; border-width: 1px; border-style: solid; }
+        .correct-review { background: #f0fff4; border-color: #68d391; }
+        .wrong-review { background: #fff5f5; border-color: #feb2b2; }
+        .status-badge { font-weight: bold; text-transform: uppercase; font-size: 12px; padding: 4px 10px; border-radius: 4px; margin-bottom: 8px; display: inline-block; }
+        .badge-correct { background: #c6f6d5; color: #22543d; }
+        .badge-wrong { background: #fed7d7; color: #822727; }
+        .score-box { font-size: 60px; font-weight: bold; color: #0F8B8D; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-box">
+        <h1>Module 5B Quiz</h1>
+        <h3>Salary Structure Design &amp; Pay Strategy</h3>
+    </div>
+
+    <!-- Start -->
+    <div id="start-screen" style="text-align: center;">
+        <p>Total MCQs: 10 | Marks: 10 | Time: 12 Mins</p>
+        <button class="btn-primary" onclick="showNameScreen()">Start Quiz</button>
+    </div>
+
+    <!-- Name Input -->
+    <div id="name-screen" style="text-align: center;">
+        <h2>Student Name</h2>
+        <input type="text" id="studentNameInput" placeholder="Enter Full Name">
+        <br>
+        <button class="btn-primary" onclick="startQuiz()">Begin Test</button>
+    </div>
+
+    <!-- Quiz -->
+    <div id="quiz-area">
+        <div id="timer">12:00</div>
+        <div id="questions-container"></div>
+        <button type="button" id="submit-btn" onclick="calculateScore()">Submit Test</button>
+    </div>
+
+    <!-- Results -->
+    <div id="result">
+        <h2 id="displayName" style="text-align: center;"></h2>
+        <div class="score-box" id="final-score"></div>
+        <p id="percentage" style="text-align: center; font-weight: bold;"></p>
+
+        <div style="margin-top: 40px;">
+            <h3 style="text-align: center;">Attempt Review</h3>
+            <div id="full-review-list"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const questionsData = [
+        ["Which methods are used for systematic job evaluation, as per the slides?", "Hay point-factor scoring or whole-job ranking", ["Annual appraisal ratings", "Hay point-factor scoring or whole-job ranking", "Market survey percentiles only", "Gratuity and provident fund calculation"]],
+        ["What does a pay band define for each grade?", "A minimum, midpoint and maximum salary", ["Only a fixed salary figure", "A minimum and bonus pool", "A minimum, midpoint and maximum salary", "A midpoint and EOBI rate"]],
+        ["What is the typical range spread from minimum to maximum in a pay band?", "30% to 60%", ["5% to 10%", "15% to 25%", "30% to 60%", "80% to 100%"]],
+        ["Grade 5 band: Min PKR 100,000, Max PKR 160,000. What is the range spread?", "60%", ["30%", "40%", "60%", "160%"]],
+        ["What midpoint differential between grades is recommended to encourage advancement?", "15% to 25%", ["1% to 3%", "5% only", "15% to 25%", "50% to 60%"]],
+        ["Which formula gives the Compa-Ratio?", "Base Salary ÷ Range Midpoint × 100", ["Range Midpoint ÷ Base Salary × 100", "Base Salary ÷ Range Maximum × 100", "Base Salary ÷ Range Midpoint × 100", "Base Salary − Range Midpoint"]],
+        ["An employee earns PKR 120,000 against a PKR 150,000 midpoint. What is the compa-ratio?", "80%", ["70%", "80%", "125%", "120%"]],
+        ["What does range penetration show?", "Position within the grade range, from 0% at minimum to 100% at maximum", ["The employee's total tax liability", "Position within the grade range, from 0% at minimum to 100% at maximum", "The percentage of employees promoted each year", "The number of grades in the structure"]],
+        ["A Karachi tech startup benchmarks software engineers at P75. What is it doing?", "Paying above the market median to attract talent", ["Matching the lowest market pay", "Paying below the market median", "Paying above the market median to attract talent", "Ignoring market surveys"]],
+        ["In Activity 2, which compa-ratios are flagged as underpaid and overpaid?", "Underpaid below 85%, overpaid above 115%", ["Underpaid below 50%, overpaid above 150%", "Underpaid below 100%, overpaid above 100%", "Underpaid below 95%, overpaid above 105%", "Underpaid below 85%, overpaid above 115%"]]
+    ];
+
+    // Paste your Google Apps Script Web App URL here
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxGZhQCV2OJeqx28hyi18_zYAMpPFQ2I_NXRCjsQV21gn4olnqQ2ExoEiCIrQ-l61_5ow/exec";
+
+    let studentName = "";
+    let timeLeft = 12 * 60;
+    let timerInterval;
+
+    function sendToGoogleSheet(name, score, total) {
+        if (!GOOGLE_SHEET_URL || GOOGLE_SHEET_URL.indexOf("PASTE_YOUR") === 0) {
+            console.warn("Google Sheet URL not set — skipping sheet submission.");
+            return;
+        }
+        const payload = new URLSearchParams();
+        payload.append("name", name);
+        payload.append("score", score);
+        payload.append("total", total);
+        payload.append("quiz", "Module 5B (Salary Structure Design & Pay Strategy)");
+        payload.append("date", new Date().toLocaleString());
+
+        fetch(GOOGLE_SHEET_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: payload.toString()
+        }).catch(err => console.error("Sheet submission failed:", err));
+    }
+
+    function showNameScreen() {
+        document.getElementById('start-screen').style.display = 'none';
+        document.getElementById('name-screen').style.display = 'block';
+    }
+
+    function startQuiz() {
+        studentName = document.getElementById('studentNameInput').value;
+        if (!studentName.trim()) { alert("Please enter your name."); return; }
+        document.getElementById('name-screen').style.display = 'none';
+        document.getElementById('quiz-area').style.display = 'block';
+        renderQuestions();
+        startTimer();
+    }
+
+    function renderQuestions() {
+        const container = document.getElementById('questions-container');
+        questionsData.forEach((item, index) => {
+            let optionsHTML = '';
+            item[2].forEach(opt => {
+                optionsHTML += `<label><input type="radio" name="q${index}" value="${opt}"> ${opt}</label>`;
+            });
+            container.innerHTML += `<div class="question"><p>Q${index + 1}: ${item[0]}</p><div class="options">${optionsHTML}</div></div>`;
+        });
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            document.getElementById('timer').innerHTML = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            if (timeLeft <= 0) calculateScore();
+            timeLeft--;
+        }, 1000);
+    }
+
+    function calculateScore() {
+        clearInterval(timerInterval);
+        let score = 0;
+        let reviewHTML = "";
+
+        questionsData.forEach((item, index) => {
+            const selected = document.querySelector(`input[name="q${index}"]:checked`);
+            const userAnswer = selected ? selected.value : "Not Attempted";
+            const isCorrect = (userAnswer === item[1]);
+
+            if (isCorrect) score++;
+
+            reviewHTML += `
+                <div class="review-item ${isCorrect ? 'correct-review' : 'wrong-review'}">
+                    <span class="status-badge ${isCorrect ? 'badge-correct' : 'badge-wrong'}">${isCorrect ? 'Correct' : 'Wrong'}</span>
+                    <div style="font-weight: bold; margin-bottom: 5px;">Question ${index+1}: ${item[0]}</div>
+                    <div>Your Choice: <span style="font-weight: bold; color: ${isCorrect ? '#2f855a' : '#c53030'};">${userAnswer}</span></div>
+                    ${isCorrect ? '' : `<div>Correct Answer: <span style="font-weight: bold; color: #2f855a;">${item[1]}</span></div>`}
+                </div>`;
+        });
+
+        document.getElementById('quiz-area').style.display = 'none';
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('displayName').innerText = studentName;
+        document.getElementById('final-score').innerText = `${score} / 10`;
+        document.getElementById('percentage').innerText = `Result: ${(score/10*100).toFixed(0)}%`;
+        document.getElementById('full-review-list').innerHTML = reviewHTML;
+        window.scrollTo(0,0);
+
+        sendToGoogleSheet(studentName, score, 10);
+    }
+</script>
+
+</body>
+</html>
