@@ -45,7 +45,7 @@
 
     <!-- Start -->
     <div id="start-screen" style="text-align: center;">
-        <p>Total MCQs: 10 | Marks: 10 | Time: 12 Mins</p>
+        <p>Total MCQs: 10 | Marks: 10 | Time: 10 Mins</p>
         <button class="btn-primary" onclick="showNameScreen()">Start Quiz</button>
     </div>
 
@@ -59,7 +59,7 @@
 
     <!-- Quiz -->
     <div id="quiz-area">
-        <div id="timer">12:00</div>
+        <div id="timer">10:00</div>
         <div id="questions-container"></div>
         <button type="button" id="submit-btn" onclick="calculateScore()">Submit Test</button>
     </div>
@@ -95,7 +95,7 @@
     const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxGZhQCV2OJeqx28hyi18_zYAMpPFQ2I_NXRCjsQV21gn4olnqQ2ExoEiCIrQ-l61_5ow/exec";
 
     let studentName = "";
-    let timeLeft = 12 * 60;
+    let timeLeft = 10 * 60;
     let timerInterval;
 
     function sendToGoogleSheet(name, score, total) {
