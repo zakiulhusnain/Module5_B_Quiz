@@ -3,49 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 5B Quiz</title>
+    <title>PMS Session 2 Quiz</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #F2F8F7; padding: 20px; color: #0E3B43; }
-        .container { max-width: 850px; margin: auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(14,59,67,0.12); }
-        .header-box { text-align: center; border-bottom: 3px solid #F28F3B; margin-bottom: 30px; padding-bottom: 10px; }
-        .header-box h1 { color: #0E3B43; margin-bottom: 4px; }
-        .header-box h3 { color: #5B6B73; font-weight: normal; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; padding: 20px; color: #202124; }
+        .container { max-width: 850px; margin: auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .header-box { text-align: center; border-bottom: 2px solid #2f6f4f; margin-bottom: 30px; padding-bottom: 10px; }
+        .header-box h1 { color: #1e4d34; margin-bottom: 4px; }
+        .header-box h3 { color: #3d3d3d; font-weight: normal; }
 
         #name-screen, #quiz-area, #result { display: none; }
 
-        .btn-primary { background-color: #0F8B8D; color: white; padding: 15px 60px; border: none; border-radius: 30px; font-size: 18px; cursor: pointer; font-weight: bold; }
-        .btn-primary:hover { background-color: #0E3B43; }
-        input[type="text"] { width: 80%; padding: 15px; border: 2px solid #CFE3E0; border-radius: 8px; font-size: 18px; margin-bottom: 20px; }
-        input[type="text"]:focus { outline: none; border-color: #0F8B8D; }
+        /* General UI */
+        .btn-primary { background-color: #2f6f4f; color: white; padding: 15px 60px; border: none; border-radius: 30px; font-size: 18px; cursor: pointer; font-weight: bold; }
+        input[type="text"] { width: 80%; padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 18px; margin-bottom: 20px; }
 
-        #timer { position: fixed; top: 20px; right: 20px; background: #B4570E; color: white; padding: 12px 25px; border-radius: 50px; font-weight: bold; font-size: 22px; z-index: 1000; }
-        .question { margin-bottom: 30px; padding: 25px; border-left: 6px solid #0F8B8D; background: #F2F8F7; border-radius: 8px; }
-        .options label { display: block; margin: 12px 0; padding: 14px; cursor: pointer; background: white; border: 1px solid #CFE3E0; border-radius: 10px; }
-        .options label:hover { border-color: #0F8B8D; background: #D5ECEA; }
+        /* Quiz UI */
+        #timer { position: fixed; top: 20px; right: 20px; background: #d93025; color: white; padding: 12px 25px; border-radius: 50px; font-weight: bold; font-size: 22px; z-index: 1000; }
+        .question { margin-bottom: 30px; padding: 25px; border-left: 6px solid #2f6f4f; background: #f8f9fa; border-radius: 8px; }
+        .options label { display: block; margin: 12px 0; padding: 14px; cursor: pointer; background: white; border: 1px solid #ddd; border-radius: 10px; }
 
-        #submit-btn { width: 100%; padding: 20px; background: #F28F3B; color: #0E3B43; border: none; border-radius: 10px; font-size: 22px; cursor: pointer; font-weight: bold; }
-        #submit-btn:hover { background: #B4570E; color: white; }
+        #submit-btn { width: 100%; padding: 20px; background: #e8a33d; color: #1e4d34; border: none; border-radius: 10px; font-size: 22px; cursor: pointer; font-weight: bold; }
 
+        /* Result/Review UI */
         .review-item { margin-bottom: 15px; padding: 15px; border-radius: 8px; border-width: 1px; border-style: solid; }
         .correct-review { background: #f0fff4; border-color: #68d391; }
         .wrong-review { background: #fff5f5; border-color: #feb2b2; }
         .status-badge { font-weight: bold; text-transform: uppercase; font-size: 12px; padding: 4px 10px; border-radius: 4px; margin-bottom: 8px; display: inline-block; }
         .badge-correct { background: #c6f6d5; color: #22543d; }
         .badge-wrong { background: #fed7d7; color: #822727; }
-        .score-box { font-size: 60px; font-weight: bold; color: #0F8B8D; text-align: center; }
+        .score-box { font-size: 60px; font-weight: bold; color: #2f6f4f; text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header-box">
-        <h1>Module 5B Quiz</h1>
-        <h3>Salary Structure Design &amp; Pay Strategy</h3>
+        <h1>Session 2 Quiz</h1>
+        <h3>Calibration, 360 Feedback, Conversations, PIPs &amp; Pay</h3>
     </div>
 
     <!-- Start -->
     <div id="start-screen" style="text-align: center;">
-        <p>Total MCQs: 10 | Marks: 10 | Time: 10 Mins</p>
+        <p>Total MCQs: 10 | Marks: 10 | Time: 12 Mins</p>
         <button class="btn-primary" onclick="showNameScreen()">Start Quiz</button>
     </div>
 
@@ -59,7 +58,7 @@
 
     <!-- Quiz -->
     <div id="quiz-area">
-        <div id="timer">10:00</div>
+        <div id="timer">12:00</div>
         <div id="questions-container"></div>
         <button type="button" id="submit-btn" onclick="calculateScore()">Submit Test</button>
     </div>
@@ -79,24 +78,25 @@
 
 <script>
     const questionsData = [
-        ["Which methods are used for systematic job evaluation, as per the slides?", "Hay point-factor scoring or whole-job ranking", ["Annual appraisal ratings", "Hay point-factor scoring or whole-job ranking", "Market survey percentiles only", "Gratuity and provident fund calculation"]],
-        ["What does a pay band define for each grade?", "A minimum, midpoint and maximum salary", ["Only a fixed salary figure", "A minimum and bonus pool", "A minimum, midpoint and maximum salary", "A midpoint and EOBI rate"]],
-        ["What is the typical range spread from minimum to maximum in a pay band?", "30% to 60%", ["5% to 10%", "15% to 25%", "30% to 60%", "80% to 100%"]],
-        ["Grade 5 band: Min PKR 100,000, Max PKR 160,000. What is the range spread?", "60%", ["30%", "40%", "60%", "160%"]],
-        ["What midpoint differential between grades is recommended to encourage advancement?", "15% to 25%", ["1% to 3%", "5% only", "15% to 25%", "50% to 60%"]],
-        ["Which formula gives the Compa-Ratio?", "Base Salary ÷ Range Midpoint × 100", ["Range Midpoint ÷ Base Salary × 100", "Base Salary ÷ Range Maximum × 100", "Base Salary ÷ Range Midpoint × 100", "Base Salary − Range Midpoint"]],
-        ["An employee earns PKR 120,000 against a PKR 150,000 midpoint. What is the compa-ratio?", "80%", ["70%", "80%", "125%", "120%"]],
-        ["What does range penetration show?", "Position within the grade range, from 0% at minimum to 100% at maximum", ["The employee's total tax liability", "Position within the grade range, from 0% at minimum to 100% at maximum", "The percentage of employees promoted each year", "The number of grades in the structure"]],
-        ["A Karachi tech startup benchmarks software engineers at P75. What is it doing?", "Paying above the market median to attract talent", ["Matching the lowest market pay", "Paying below the market median", "Paying above the market median to attract talent", "Ignoring market surveys"]],
-        ["In Activity 2, which compa-ratios are flagged as underpaid and overpaid?", "Underpaid below 85%, overpaid above 115%", ["Underpaid below 50%, overpaid above 150%", "Underpaid below 100%, overpaid above 100%", "Underpaid below 95%, overpaid above 105%", "Underpaid below 85%, overpaid above 115%"]]
+        ["In the 'Classic 5-point' bell curve model, what is the split from Outstanding to Below?", "10% / 20% / 40% / 20% / 10%", ["5% / 15% / 60% / 15% / 5%", "10% / 25% / 50% / 10% / 5%", "10% / 20% / 40% / 20% / 10%", "20% / 20% / 20% / 20% / 20%"]],
+        ["How do most firms apply a guided curve, and where do they calibrate?", "With a ±5-point tolerance band, calibrated by cluster rather than team by team", ["Strictly, with no tolerance, team by team", "With a ±5-point tolerance band, calibrated by cluster rather than team by team", "With a ±20-point band, decided by each manager alone", "Only for managers, never for workmen"]],
+        ["According to the deck, what should be the purpose of a 360-degree process?", "Developmental use only, kept away from pay", ["Setting the annual bonus", "Deciding promotions and terminations", "Developmental use only, kept away from pay", "Ranking managers against each other publicly"]],
+        ["What is the recommended rater set-up for a 360 process?", "8–12 raters, with at least 3 per group for anonymity", ["2–3 raters chosen by the manager", "8–12 raters, with at least 3 per group for anonymity", "Only the line manager and HR", "20+ raters chosen by the owner"]],
+        ["In the review meeting, roughly how much should the employee speak, and when should a written summary be shared?", "About half the time; written summary within 48 hours", ["A quarter of the time; summary within 7 days", "About half the time; written summary within 48 hours", "Most of the time; no written summary needed", "Very little; summary at the next annual review"]],
+        ["What does the SBI feedback model stand for?", "Situation, Behaviour, Impact", ["Strength, Behaviour, Improvement", "Situation, Behaviour, Impact", "Standard, Benchmark, Indicator", "Situation, Background, Intention"]],
+        ["Which structure fits a lawful PIP according to the deck?", "3–5 SMART targets, weekly check-ins, formal reviews at 30, 60 and 90 days, signed acknowledgement", ["One vague target, reviewed only at the end", "3–5 SMART targets, weekly check-ins, formal reviews at 30, 60 and 90 days, signed acknowledgement", "A 15-day deadline with no training or support", "Verbal warning only, kept confidential from HR"]],
+        ["Which of these must an employer NOT do with a PIP?", "Cut pay (Payment of Wages Act, 1936), retaliate for complaints, or use it as a soft exit", ["Document baseline evidence and signed goal sheets", "Provide support and weekly check-ins", "Cut pay (Payment of Wages Act, 1936), retaliate for complaints, or use it as a soft exit", "Record the employee's comments and a final outcome memo"]],
+        ["Using the illustrative merit matrix, what increment does an employee rated 3 (Meets) with a compa-ratio of 0.95 receive?", "8%", ["6%", "8%", "10%", "12%"]],
+        ["Which of the following is a condition for promotion, as per the 'Promotion Is a Readiness Decision' slide?", "Rated 4–5 for at least two cycles", ["Rated 3 or above for one cycle", "Longest-serving employee in the team", "Rated 4–5 for at least two cycles", "Recommended through sifarish"]]
     ];
 
     // Paste your Google Apps Script Web App URL here
     const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxGZhQCV2OJeqx28hyi18_zYAMpPFQ2I_NXRCjsQV21gn4olnqQ2ExoEiCIrQ-l61_5ow/exec";
 
     let studentName = "";
-    let timeLeft = 10 * 60;
+    let timeLeft = 12 * 60;
     let timerInterval;
+    let submitted = false;
 
     function sendToGoogleSheet(name, score, total) {
         if (!GOOGLE_SHEET_URL || GOOGLE_SHEET_URL.indexOf("PASTE_YOUR") === 0) {
@@ -107,7 +107,7 @@
         payload.append("name", name);
         payload.append("score", score);
         payload.append("total", total);
-        payload.append("quiz", "Module 5B (Salary Structure Design & Pay Strategy)");
+        payload.append("quiz", "PMS Session 2 (Calibration, 360, Conversations, PIPs & Pay)");
         payload.append("date", new Date().toLocaleString());
 
         fetch(GOOGLE_SHEET_URL, {
@@ -154,6 +154,8 @@
     }
 
     function calculateScore() {
+        if (submitted) return;
+        submitted = true;
         clearInterval(timerInterval);
         let score = 0;
         let reviewHTML = "";
